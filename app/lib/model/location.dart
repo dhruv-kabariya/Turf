@@ -13,6 +13,5 @@ class Location extends Equatable {
       @required this.city,
       @required this.state});
   @override
-  // TODO: implement props
   List<Object> get props => [area, road, city, state];
 }

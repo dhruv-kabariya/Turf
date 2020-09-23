@@ -29,7 +29,6 @@ class Ground extends Equatable {
         assert(price != null);
 
   @override
-  // TODO: implement props
   List<Object> get props =>
       [id, name, details, price, sprots, location, contact, star];
 }

@@ -28,7 +28,8 @@ class CouponeApplied extends ConfirmbookState {
 
 class InvalidCoupone extends ConfirmbookState {
   final String reason;
-  InvalidCoupone({@required this.reason});
+  final Map<String, dynamic> bill;
+  InvalidCoupone({@required this.reason, @required this.bill});
 
   @override
   List<Object> get props => [reason];

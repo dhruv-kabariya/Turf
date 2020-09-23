@@ -16,3 +16,9 @@ class AdjustData extends HomeEvent {
   @override
   List<Object> get props => [filters, sort];
 }
+
+class SearchSelected extends HomeEvent {}
+
+class BookmarkSelected extends HomeEvent {}
+
+class SettingSelected extends HomeEvent {}

@@ -73,97 +73,187 @@ class ConfirmBookScreen extends StatelessWidget {
               left: 10,
               right: 10,
             ),
-            child: BlocBuilder<ConfirmbookBloc, ConfirmbookState>(
-              builder: (context, state) {
-                if (state is FetchingBill || state is ConfirmbookInitial) {
-                  Container(
-                    child: Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                  );
-                } else if (state is FetchedBill) {
-                  return Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    child: Column(
-                      children: [
-                        Container(
-                            padding: EdgeInsets.symmetric(
-                                vertical: 5, horizontal: 5),
-                            child: Column(
-                                children: state.bill.entries
-                                    .map((e) =>
-                                        BillInfo(title: e.key, data: e.value))
-                                    .toList())
-                            // bill from bloc
-                            ),
-                      ],
-                    ),
-                  );
-                }
-              },
-            ),
+            child: BlocListener<ConfirmbookBloc, ConfirmbookState>(
+                listener: (context, state) {
+                  if (state is InvalidCoupone) {
+                    Scaffold.of(context).showSnackBar(SnackBar(
+                        content: Text(
+                      state.reason,
+                      style: TextStyle(color: Colors.white),
+                    )));
+                  }
+                },
+                cubit: bloc,
+                child: BlocBuilder(
+                  cubit: bloc,
+                  builder: (context, state) {
+                    if (state is FetchingBill ||
+                        state is ConfirmbookInitial ||
+                        state is CouponeChecking) {
+                      return Container(
+                        child: Center(
+                          child: CircularProgressIndicator(),
+                        ),
+                      );
+                    } else if (state is FetchedBill) {
+                      return Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Column(
+                          children: [
+                            Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 5),
+                                child: Column(
+                                    children: state.bill.entries
+                                        .map((e) => BillInfo(
+                                            title: e.key, data: e.value))
+                                        .toList())
+                                // bill from bloc
+                                ),
+                          ],
+                        ),
+                      );
+                    } else if (state is CouponeApplied) {
+                      return Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Column(
+                          children: [
+                            Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 5),
+                                child: Column(
+                                    children: state.bill.entries
+                                        .map((e) => BillInfo(
+                                            title: e.key, data: e.value))
+                                        .toList())
+                                // bill from bloc
+                                ),
+                          ],
+                        ),
+                      );
+                    } else if (state is InvalidCoupone) {
+                      return Container(
+                        padding:
+                            EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+                        child: Column(
+                          children: [
+                            Container(
+                                padding: EdgeInsets.symmetric(
+                                    vertical: 5, horizontal: 5),
+                                child: Column(
+                                    children: state.bill.entries
+                                        .map((e) => BillInfo(
+                                            title: e.key, data: e.value))
+                                        .toList())
+                                // bill from bloc
+                                ),
+                          ],
+                        ),
+                      );
+                    }
+                  },
+                )),
           ),
-          Container(
-            child: TextFormField(
-              autofocus: false,
-              decoration: InputDecoration(border: InputBorder.none),
+          Card(
+            elevation: 5,
+            margin: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
+            child: Container(
+              color: Colors.white,
+              child: TextFormField(
+                controller: couponeController,
+                autofocus: false,
+                style: TextStyle(color: Colors.black),
+                onFieldSubmitted: (coupone) {
+                  bloc.add(ApplyCoupone(coponeCode: coupone));
+                },
+                decoration: InputDecoration(
+                    contentPadding:
+                        EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                    hintText: "Apply Coupone",
+                    hintStyle: TextStyle(color: Colors.black),
+                    border: InputBorder.none),
+              ),
             ),
           )
         ],
       ),
       bottomNavigationBar: BlocBuilder<ConfirmbookBloc, ConfirmbookState>(
+          cubit: bloc,
           builder: (context, state) {
-        if (state is FetchedBill) {
-          return InkWell(
-            onTap: state is FetchedBill || state is CouponeApplied
-                ? () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => PaymentPage(),
-                      ),
-                    );
-                  }
-                : null,
-            child: Container(
+            if (state is FetchedBill) {
+              return InkWell(
+                onTap: state is FetchedBill || state is CouponeApplied
+                    ? () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => PaymentPage(),
+                          ),
+                        );
+                      }
+                    : null,
+                child: Container(
+                  height: 50,
+                  color: Colors.orange,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Proccesd To Pay ${state.bill["final"]}",
+                    style: Theme.of(context).textTheme.headline2,
+                  ),
+                ),
+              );
+            } else if (state is CouponeApplied) {
+              return InkWell(
+                onTap: state is FetchedBill || state is CouponeApplied
+                    ? () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => PaymentPage(),
+                          ),
+                        );
+                      }
+                    : null,
+                child: Container(
+                  height: 50,
+                  color: Colors.orange,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Proccesd To Pay ${state.bill["final"]}",
+                    style: Theme.of(context).textTheme.headline2,
+                  ),
+                ),
+              );
+            } else if (state is InvalidCoupone) {
+              return InkWell(
+                onTap: state is FetchedBill || state is CouponeApplied
+                    ? () {
+                        Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => PaymentPage(),
+                          ),
+                        );
+                      }
+                    : null,
+                child: Container(
+                  height: 50,
+                  color: Colors.orange,
+                  alignment: Alignment.center,
+                  child: Text(
+                    "Proccesd To Pay ${state.bill["final"]}",
+                    style: Theme.of(context).textTheme.headline2,
+                  ),
+                ),
+              );
+            }
+            return Container(
               height: 50,
               color: Colors.orange,
-              alignment: Alignment.center,
-              child: Text(
-                state.bill["final"],
-                style: Theme.of(context).textTheme.headline2,
+              child: Center(
+                child: CircularProgressIndicator(),
               ),
-            ),
-          );
-        } else if (state is CouponeApplied) {
-          return InkWell(
-            onTap: state is FetchedBill || state is CouponeApplied
-                ? () {
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => PaymentPage(),
-                      ),
-                    );
-                  }
-                : null,
-            child: Container(
-              height: 50,
-              color: Colors.orange,
-              alignment: Alignment.center,
-              child: Text(
-                state.bill["final"],
-                style: Theme.of(context).textTheme.headline2,
-              ),
-            ),
-          );
-        }
-        return Container(
-          height: 50,
-          color: Colors.orange,
-          child: Center(
-            child: CircularProgressIndicator(),
-          ),
-        );
-      }),
+            );
+          }),
     );
   }
 }

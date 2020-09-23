@@ -32,11 +32,10 @@ class ConfirmbookBloc extends Bloc<ConfirmbookEvent, ConfirmbookState> {
 
   Stream<ConfirmbookState> _mapApplyCouponeToState(ApplyCoupone event) async* {
     yield CouponeChecking();
-
+    Map<String, dynamic> bill = await billingService.fetchBill();
     Map<String, dynamic> status =
         await billingService.applyCoupone(event.coponeCode);
     if (status["success"] == true) {
-      Map<String, dynamic> bill = await billingService.fetchBill();
       if (status["type"] == "%") {
         bill["discount"] = status["how_much"] * (-1);
         bill["final"] = status["final"];
@@ -47,13 +46,14 @@ class ConfirmbookBloc extends Bloc<ConfirmbookEvent, ConfirmbookState> {
         yield CouponeApplied(bill: bill);
       }
     } else {
-      yield InvalidCoupone(reason: status["error"]);
+      yield InvalidCoupone(reason: status["error"], bill: bill);
     }
   }
 
   Stream<ConfirmbookState> _mapFetchBillToState(FetchBill event) async* {
     yield FetchingBill();
     Map<String, dynamic> bill = await billingService.fetchBill();
+
     yield FetchedBill(bill: bill);
   }
 }

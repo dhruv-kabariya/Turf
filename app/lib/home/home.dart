@@ -76,7 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomBar(),
+        bottomNavigationBar: BottomBar(
+          bloc: bloc,
+        ),
       ),
     );
   }
@@ -97,9 +99,11 @@ class _HomeScreenState extends State<HomeScreen> {
 }
 
 class BottomBar extends StatelessWidget {
-  const BottomBar({
+  BottomBar({
     Key key,
+    this.bloc,
   }) : super(key: key);
+  HomeBloc bloc;
 
   @override
   Widget build(BuildContext context) {
@@ -109,17 +113,18 @@ class BottomBar extends StatelessWidget {
         unselectedItemColor: Colors.white60,
         elevation: 5,
         selectedFontSize: 14,
+        onTap: (index) {
+          bloc.add(SearchSelected());
+        },
         items: [
           BottomNavigationBarItem(
             icon: Icon(Icons.home),
-            title: Text("Home"),
+            label: "Home",
           ),
+          BottomNavigationBarItem(icon: Icon(Icons.search), label: "Search"),
           BottomNavigationBarItem(
-              icon: Icon(Icons.search), title: Text("Search")),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.bookmark), title: Text("Bookmark")),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings), title: Text("Setting")),
+              icon: Icon(Icons.bookmark), label: "Bookmark"),
+          BottomNavigationBarItem(icon: Icon(Icons.settings), label: "Setting"),
         ]);
   }
 }

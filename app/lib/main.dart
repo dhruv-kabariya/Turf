@@ -48,7 +48,7 @@ class MyApp extends StatelessWidget {
           } else if (state is Authenticationfail) {
             return AuthScreen();
           }
-          return Container();
+          return SplashScreen();
         },
       ),
     );

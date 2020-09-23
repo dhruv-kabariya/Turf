@@ -41,13 +41,13 @@ class DashBoardCard extends StatelessWidget {
                   alignment: Alignment.bottomLeft,
                   decoration: BoxDecoration(
                     gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
                       colors: [
                         Colors.transparent,
                         Colors.transparent,
                         Colors.black54
                       ],
+                      begin: Alignment.topCenter,
+                      end: Alignment.bottomCenter,
                     ),
                     image: DecorationImage(
                         image: NetworkImage(

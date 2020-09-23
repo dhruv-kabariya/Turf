@@ -38,3 +38,9 @@ class AdjustedGroundData extends HomeState {
   @override
   List<Object> get props => [grounds];
 }
+
+class Search extends HomeState {}
+
+class Bookmark extends HomeState {}
+
+class Setting extends HomeState {}
