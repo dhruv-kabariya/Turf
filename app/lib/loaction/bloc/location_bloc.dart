@@ -27,6 +27,7 @@ class LocationBloc extends Bloc<LocationEvent, LocationState> {
   }
 
   Stream<LocationState> _mapLocationCheckToState() async* {
+    yield LocationInitial();
     String location = service.checkLocation();
     if (location == null) {
       yield LocationUnSeleted();

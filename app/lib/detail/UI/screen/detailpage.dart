@@ -24,7 +24,11 @@ class DetailScreen extends StatelessWidget {
       // Theme.of(context).scaffoldBackgroundColor,
       body: CustomScrollView(
         slivers: [
-          DetailPageHeader(extendheight: boxHeight * 30, title: ground.name),
+          DetailPageHeader(
+            extendheight: boxHeight * 30,
+            title: ground.name,
+            bookmark: ground.bookmark,
+          ),
           SliverList(
             delegate: SliverChildListDelegate(
               [

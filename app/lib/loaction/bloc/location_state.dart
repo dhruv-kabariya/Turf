@@ -17,3 +17,5 @@ class LocationSelected extends LocationState {
 }
 
 class LocationError extends LocationState {}
+
+class LocationInitial extends LocationState {}

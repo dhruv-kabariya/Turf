@@ -43,35 +43,21 @@ class _SearchScreenState extends State<SearchScreen> {
               ),
               height: 45,
               width: MediaQuery.of(context).size.width,
-              child: Row(
-                children: [
-                  IconButton(
-                      icon: Icon(Icons.arrow_back),
-                      onPressed: () {
-                        Navigator.of(context).pop();
-                      }),
-                  SizedBox(
-                    width: 5,
-                  ),
-                  Expanded(
-                    child: TextFormField(
-                      controller: controller,
-                      style: Theme.of(context).textTheme.headline5,
-                      onChanged: (query) {
-                        if (query.isEmpty) {
-                          bloc.add(NoneQuery());
-                        } else {
-                          bloc.add(Query(query: query));
-                        }
-                      },
-                      autofocus: true,
-                      decoration: InputDecoration(
-                          border: InputBorder.none,
-                          hintText: "Search Grounds",
-                          hintStyle: Theme.of(context).textTheme.headline5),
-                    ),
-                  ),
-                ],
+              child: TextFormField(
+                controller: controller,
+                style: Theme.of(context).textTheme.headline5,
+                onChanged: (query) {
+                  if (query.isEmpty) {
+                    bloc.add(NoneQuery());
+                  } else {
+                    bloc.add(Query(query: query));
+                  }
+                },
+                autofocus: false,
+                decoration: InputDecoration(
+                    border: InputBorder.none,
+                    hintText: "Search Grounds",
+                    hintStyle: Theme.of(context).textTheme.headline5),
               ),
             ),
             Expanded(
@@ -136,3 +122,17 @@ class _SearchScreenState extends State<SearchScreen> {
     super.dispose();
   }
 }
+
+// Row(
+//   children: [
+//     IconButton(
+//         icon: Icon(Icons.arrow_back),
+//         onPressed: () {
+//           Navigator.of(context).pop();
+//         }),
+//     SizedBox(
+//       width: 5,
+//     ),
+
+//   ],
+// ),

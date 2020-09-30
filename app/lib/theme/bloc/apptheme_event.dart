@@ -6,6 +6,11 @@ abstract class AppthemeEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class AppThemeChage extends AppthemeEvent {}
+class AppThemeChage extends AppthemeEvent {
+  final bool value;
+  AppThemeChage({@required this.value});
+  @override
+  List<Object> get props => [value];
+}
 
-class AppThemeCheck extends AppthemeEvent {}
+class ThemeLoading extends AppthemeEvent {}

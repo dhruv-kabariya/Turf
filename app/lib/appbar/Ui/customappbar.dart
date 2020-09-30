@@ -3,10 +3,15 @@ import 'package:booking/locationSelect/UI/screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class MyAppBar extends StatelessWidget {
+class MyAppBar extends PreferredSize {
   const MyAppBar({
     Key key,
-  }) : super(key: key);
+    this.height,
+  });
+
+  final double height;
+  @override
+  Size get preferredSize => Size.fromHeight(height);
 
   @override
   Widget build(BuildContext context) {

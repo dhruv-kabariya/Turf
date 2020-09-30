@@ -1,12 +1,23 @@
+import 'package:flutter/cupertino.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+
 class SettingService {
-  bool theme = true;
+  final SharedPreferences preferences;
+  SettingService({@required this.preferences});
 
   bool checkTheme() {
-    return this.theme;
+    bool theme = this.preferences.getBool("theme");
+    if (theme == null) {
+      this.preferences.setBool("theme", true);
+      return true;
+    } else {
+      return this.preferences.getBool("theme");
+    }
   }
 
   bool changetheme() {
-    this.theme = !this.theme;
-    return this.theme;
+    bool theme = this.preferences.getBool("theme") ?? true;
+    this.preferences.setBool("theme", !theme);
+    return !theme;
   }
 }

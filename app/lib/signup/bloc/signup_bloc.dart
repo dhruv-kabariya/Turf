@@ -49,8 +49,14 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
     } else if (event is SignupwithGoogle) {
       yield* _mapSignupwithGoogleToState();
     } else if (event is SignupWithCredentials) {
-      yield* _mapSignupwithCredetialsTostate(event.email, event.password);
+      yield* _mapSignupwithCredetialsTostate(event.email, event.password,event.name);
+    } else if (event is NameCheck) {
+      yield* _mapNamecheckToState(event.name);
     }
+  }
+
+  Stream<SignupState> _mapNamecheckToState(String name) async* {
+    yield state.update(isName: name.isNotEmpty);
   }
 
   Stream<SignupState> _mapSignupEmialChangetoState(String email) async* {
@@ -69,10 +75,10 @@ class SignupBloc extends Bloc<SignupEvent, SignupState> {
   }
 
   Stream<SignupState> _mapSignupwithCredetialsTostate(
-      String email, String password) async* {
+      String email, String password, String name) async* {
     yield SignupState.loading();
 
-    userrepo.signUp(email, password);
+    userrepo.signUp(email, password, name);
     authbloc.add(AuthenticationLoggedIn());
   }
 }

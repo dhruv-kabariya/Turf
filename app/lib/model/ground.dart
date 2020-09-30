@@ -12,7 +12,7 @@ class Ground extends Equatable {
   final List<String> sprots;
   final Contact contact;
   final double star;
-  final bool bookmark;
+  bool bookmark;
 
   Ground({
     @required this.id,

@@ -1,22 +1,39 @@
 import 'package:flutter/material.dart';
 
-class DetailPageHeader extends StatelessWidget {
-  DetailPageHeader({@required this.extendheight, @required this.title});
+class DetailPageHeader extends StatefulWidget {
+  DetailPageHeader(
+      {@required this.extendheight,
+      @required this.title,
+      @required this.bookmark});
 
   final double extendheight;
   final String title;
+  bool bookmark;
+  @override
+  _DetailPageHeaderState createState() => _DetailPageHeaderState();
+}
 
+class _DetailPageHeaderState extends State<DetailPageHeader> {
   @override
   Widget build(BuildContext context) {
     return SliverAppBar(
       backgroundColor: Color(0xff353535),
-      expandedHeight: extendheight,
+      expandedHeight: widget.extendheight,
       pinned: true,
       floating: false,
       actions: [
-        Container(
-          margin: EdgeInsets.symmetric(horizontal: 5),
-          child: Icon(Icons.bookmark_border),
+        InkWell(
+          onTap: () {
+            setState(() {
+              widget.bookmark = !widget.bookmark;
+            });
+          },
+          child: Container(
+            margin: EdgeInsets.symmetric(horizontal: 5),
+            child: widget.bookmark
+                ? Icon(Icons.bookmark)
+                : Icon(Icons.bookmark_border),
+          ),
         ),
         Container(
           margin: EdgeInsets.only(left: 5, right: 10),

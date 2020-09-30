@@ -21,14 +21,14 @@ class _SignUpFormState extends State<SignUpForm> {
 
   TextEditingController _email;
   TextEditingController _pass;
-  TextEditingController _conpass;
+  TextEditingController _name;
   SignupBloc bloc;
 
   @override
   void initState() {
     _email = TextEditingController();
     _pass = TextEditingController();
-    _conpass = TextEditingController();
+    _name = TextEditingController();
     bloc = SignupBloc(authbloc: widget.authbloc, userrepo: widget.userrepo);
     super.initState();
   }
@@ -80,10 +80,43 @@ class _SignUpFormState extends State<SignUpForm> {
                         ),
                         child: TextFormField(
                           keyboardType: TextInputType.emailAddress,
-                          validator: (_) {
-                            return !state.isEmailValid
-                                ? "Enter Valid Email"
-                                : null;
+                          validator: (String name) {
+                            return !state.isName ? "Enter Valid Name" : null;
+                          },
+                          controller: _name,
+                          decoration: InputDecoration(
+                              // prefixIcon: Icon(Icons.email),
+                              contentPadding:
+                                  EdgeInsets.only(left: boxwidth * 5),
+                              border: InputBorder.none,
+                              hintStyle: TextStyle(color: Colors.white70),
+                              hintText: "Name"),
+                        ),
+                      ),
+                    ),
+                    Card(
+                      elevation: 10,
+                      shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(5)),
+                      margin: EdgeInsets.only(
+                          left: boxheight * 5,
+                          right: boxheight * 5,
+                          top: boxheight * 2),
+                      child: Container(
+                        decoration: BoxDecoration(
+                          color: Colors.grey[800],
+                          borderRadius: BorderRadius.circular(5),
+                        ),
+                        child: TextFormField(
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (String name) {
+                            if (state.isEmailValid) {
+                              return null;
+                            }
+                            return "Enter Valid Email";
+                          },
+                          onChanged: (String name) {
+                            bloc.add(NameCheck(name: name));
                           },
                           controller: _email,
                           decoration: InputDecoration(
@@ -113,13 +146,12 @@ class _SignUpFormState extends State<SignUpForm> {
                           // textAlign: TextAlign.left,
                           controller: _pass,
                           obscureText: true,
-                          validator: (_) {
+                          validator: (String password) {
                             return !state.isPasswordValid
                                 ? "Invalid Password"
                                 : null;
                           },
                           decoration: InputDecoration(
-
                               // prefixIcon: Icon(Icons.lock),
                               contentPadding:
                                   EdgeInsets.only(left: boxwidth * 5),
@@ -142,10 +174,13 @@ class _SignUpFormState extends State<SignUpForm> {
                       child: InkWell(
                         onTap: _email.text.isNotEmpty &&
                                 _pass.text.isNotEmpty &&
+                                _name.text.isNotEmpty &&
                                 !state.isSubmitting
                             ? () {
                                 bloc.add(SignupWithCredentials(
-                                    email: _email.text, password: _pass.text));
+                                    email: _email.text,
+                                    password: _pass.text,
+                                    name: _name.text));
                               }
                             : null,
                         child: Container(
@@ -239,7 +274,7 @@ class _SignUpFormState extends State<SignUpForm> {
                 ),
               ),
               SizedBox(
-                height: boxheight * 18,
+                height: boxheight * 10,
               ),
               Divider(
                 height: boxheight * 2,

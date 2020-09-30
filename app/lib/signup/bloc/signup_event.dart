@@ -5,7 +5,6 @@ abstract class SignupEvent extends Equatable {
   const SignupEvent();
 
   @override
-  // TODO: implement props
   List<Object> get props => [];
 }
 
@@ -13,7 +12,6 @@ class SignUpEmailChanged extends SignupEvent {
   final String email;
   SignUpEmailChanged({@required this.email});
   @override
-  // TODO: implement props
   List<Object> get props => [email];
 }
 
@@ -22,18 +20,26 @@ class PasswordChange extends SignupEvent {
   const PasswordChange({@required this.password});
 
   @override
-  // TODO: implement props
   List<Object> get props => [password];
+}
+
+class NameCheck extends SignupEvent {
+  final String name;
+
+  const NameCheck({@required this.name});
+  @override
+  List<Object> get props => [name];
 }
 
 class SignupWithCredentials extends SignupEvent {
   final String email;
   final String password;
+  final String name;
 
-  const SignupWithCredentials({@required this.email, @required this.password});
+  const SignupWithCredentials(
+      {@required this.email, @required this.password, @required this.name});
   @override
-  // TODO: implement props
-  List<Object> get props => [email, password];
+  List<Object> get props => [email, password, name];
 }
 
 class SignupwithGoogle extends SignupEvent {}

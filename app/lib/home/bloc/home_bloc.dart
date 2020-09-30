@@ -24,12 +24,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield* _mapFetchGroundToState();
     } else if (event is AdjustData) {
       yield* _mapAdjustDataToState();
-    } else if (event is BookmarkSelected) {
-      yield Bookmark();
-    } else if (event is SearchSelected) {
-      yield Search();
-    } else if(event is SettingSelected){
-      yield Setting();
     }
   }
 
@@ -38,7 +32,6 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       yield GroundDataLoading();
       try {
         List<Ground> ground = await grounds.fetchGround();
-        // print(ground.length);
         yield GroundDataLoaded(grounds: ground);
       } catch (e) {
         yield FailGroundDataLoading(error: e);
@@ -47,7 +40,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     if (state is GroundDataLoaded) {
       try {
         List<Ground> ground = await grounds.fetchGround();
-        print(ground.length);
+
         yield GroundDataLoaded(grounds: ground);
       } catch (e) {
         yield FailMoreGroudDataLoading(error: e);
@@ -67,6 +60,4 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   // }
 
   Stream<HomeState> _mapAdjustDataToState() async* {}
-}
-
 }

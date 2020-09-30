@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class OwnerContact extends StatelessWidget {
   final String number;
@@ -37,20 +38,25 @@ class OwnerContact extends StatelessWidget {
                 SizedBox(
                   height: 3,
                 ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    Text(
-                      number,
-                      style: Theme.of(context).textTheme.bodyText1,
-                    ),
-                    Icon(
-                      Icons.phone,
-                      size: 20,
-                      color: Colors.red,
-                    )
-                  ],
+                InkWell(
+                  onTap: () {
+                    launch("tel:$number");
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    children: [
+                      Text(
+                        number,
+                        style: Theme.of(context).textTheme.bodyText1,
+                      ),
+                      Icon(
+                        Icons.phone,
+                        size: 20,
+                        color: Colors.red,
+                      )
+                    ],
+                  ),
                 ),
               ],
             ),

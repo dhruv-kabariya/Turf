@@ -51,7 +51,6 @@ class LocationselectBloc
   Stream<LocationselectState> _mapLocationQueryTostate(String query) async* {
     yield LocationListLoading();
     List<String> locations = await service.fetchLocations(query);
-    print(locations);
     yield LocationListLoaded(list: locations);
   }
 
