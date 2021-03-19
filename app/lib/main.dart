@@ -2,7 +2,6 @@ import 'package:booking/authentication/UI/Aurthscreen.dart';
 import 'package:booking/authentication/bloc/bloc/authentication_bloc.dart';
 import 'package:booking/main/cubit/main_cubit.dart';
 import 'package:booking/prefernce.dart';
-import 'package:booking/services/settingservice.dart';
 import 'package:booking/theme/appTheme.dart';
 import 'package:booking/theme/bloc/apptheme_bloc.dart';
 import 'package:booking/utils/bloc_deleget.dart';
